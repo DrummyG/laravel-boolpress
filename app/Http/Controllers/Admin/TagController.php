@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Tag;
 
-class CategoryController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('welcome', compact('categories'));
+        $tags = Tag::all();
+        return view('guest.home', compact('tags'));
     }
 
     /**
@@ -24,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('tags.create');
     }
 
     /**
@@ -36,12 +38,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $request->validate($this->validationRules);
       
-        $newCategory = Category::create($data);
+        $newTag = Tag::create($data);
 
-        $newCategory->save();
+        $newTag->save();
         
-        return redirect()->route('categories.show', $newCategory->id);
+        return redirect()->route('tags.show', $newTag->id);
     }
 
     /**
@@ -50,10 +53,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tag $tag)
     {
-        if($category){
-            return view('categories.show', compact('category'));
+        if($tag){
+            return view('tags.show', compact('tag'));
         }
         abort(404);
     }
@@ -64,9 +67,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit(Tag $tag)
     {
-        return view('categories.edit',compact('category'));
+        return view('tags.edit',compact('tag'));
     }
 
     /**
@@ -76,13 +79,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Tag $tag)
     {
         $data = $request->all();
 
-        $category->update($data);
+        $tag->update($data);
 
-        return redirect()->route('categories.show', $category->id);
+        return redirect()->route('tags.show', $tag->id);
     }
 
     /**
@@ -93,8 +96,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
-        return redirect()->route('home');
+        //
     }
 }

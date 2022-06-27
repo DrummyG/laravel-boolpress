@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use Illuminate\Support\Str;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $posts = Post::all();
-        return view('guest.home', compact('posts', 'categories'));
+        return view('admin.home', compact('categories'));
     }
 
     /**
@@ -27,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('categories.create');
     }
 
     /**
@@ -39,13 +40,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $request->validate($this->validationRules);
       
-        $newPost = Post::create($data);
+        $newCategory = Category::create($data);
 
-        $newPost->save();
+        $newCategory->save();
         
-        return redirect()->route('posts.show', $newPost->id);
+        return redirect()->route('categories.show', $newCategory->id);
     }
 
     /**
@@ -54,10 +54,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        if($post){
-            return view('posts.show', compact('post'));
+        if($category){
+            return view('categories.show', compact('category'));
         }
         abort(404);
     }
@@ -68,9 +68,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Category $category)
     {
-        return view('posts.edit',compact('post'));
+        return view('categories.edit',compact('category'));
     }
 
     /**
@@ -80,19 +80,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Category $category)
     {
         $data = $request->all();
 
-        $post->update($data);
+        $category->update($data);
 
-        if(isset($data['tags'])){
-            $post->tags()->sync($data['tags']);
-        } else {
-            $post->tags()->sync([]);
-        }
-
-        return redirect()->route('posts.show', $post->id);
+        return redirect()->route('categories.show', $category->id);
     }
 
     /**
@@ -103,8 +97,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
+        $category = Category::findOrFail($id);
+        $category->delete();
         return redirect()->route('home');
     }
 }

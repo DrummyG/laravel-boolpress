@@ -1,31 +1,33 @@
-@extends('layouts.admin')
-
+@extends('parts.body')
 @section('content')
-<form action="{{route('admin.posts.store')}}" method="POST">
+
+<form action="{{ route('posts.store') }}" method="POST" class="boot" enctype="multipart/form-data">
     @csrf
-    <div class="mb-3">
-      <label for="title" class="form-label">Title</label>
-      <input type="text" class="form-control" id="title" name="title" value="{{old('title')}}" placeholder="Inserisci titolo">
-    </div>
-    <div class="mb-3">
-      <label for="content" class="form-label">Content</label>
-        <textarea class="form-control" name="content" id="content" cols="30" rows="10">{{old('content')}}</textarea>
-    </div>
-    <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-         <select name="category_id" id="category" class="form-control">
-            <option value="">Select category</option>
-            @foreach ($categories as $category)
-             <option value="{{$category->id}}">{{$category->name}}</option>
+    <div class="mb-3 row justify-content-center">
+        <label for="title" class="col-sm-8 col-form-label">Title</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" placeholder="Inserisci un titolo" name="title">
+        </div>
+        <div class="col-sm-8">
+            <label for="content" class="col-sm-4 col-form-label">content</label>
+            <textarea name="content" type="text" cols="50" rows="10" class="form-control @error('content') is-invalid @enderror" id="content" placeholder="Inserisci la descrizione">
+            </textarea>
+        </div>
+        <div class="col-sm-8">
+            <label for="image" class="col-sm-4 col-form-label">Image: </label>
+            <input type="text" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
+        </div>
+        <select name="category_id" id="category_id">
+            <?php
+              use App\Category;
+              $categories = Category::all();
+            ?>
+            @foreach ($categories as $item)
+            <option value="{{$item->id}}">{{$item->name}}</option>
             @endforeach
-
-         </select>
-      </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" {{old('published') ? 'checked' : ''}} id="published" name="published">
-      <label class="form-check-label"  for="published">Published</label>
+        </select>
     </div>
+    <button class="btn btn-warning"><strong>Save</strong></button>
+</form>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
 @endsection

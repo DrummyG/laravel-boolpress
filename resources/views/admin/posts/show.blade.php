@@ -1,13 +1,15 @@
-@extends('layouts.admin')
-
+@extends('parts.body')
 @section('content')
-    <h1>{{$post->title}}</h1>
-    @if($post->category)
-        <h2>{{$post->category->name}}</h2>
-    @endif
-    <small>{{$post->created_at}}</small>
-    <p>{{$post->content}}</p>
 
-    <h5>{{$post->published ? 'Published' : 'Unpublished'}}</h5>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+            <h1>{{$post->title}}</h1>
+            <p>{{$post->content}}</p>
+            <img src="{{$post->image}}" alt="">
+            <button href="{{route('posts.update', $post->id)}}">update</button>
+        </div>
+    </div>
+</div>
 
 @endsection

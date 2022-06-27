@@ -15,9 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/',function(){
+    return view('guest.h');
+});
 
 Auth::routes();
 
-Route::get('/', 'PostController@index')->name('home');
-    Route::resource('/posts', 'PostController');
+Route::middleware('auth')
+    ->namespace('Admin')
+    ->name('admin.')
+    ->prefix('admin')
+    ->group(function(){
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::resource('/posts', 'PostController');
+        Route::resource('/categories', 'CategoryController');
+        Route::resource('/tags', 'TagController');
+    });
 
