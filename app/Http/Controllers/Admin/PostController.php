@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Iluminate\Support\Facades\Storage;
 use App\Post;
 use App\Category;
 
 class PostController extends Controller
 {
-    protected $validationRule = [
-        "title" => "required|string|max:100",
-        "content" => "required",
-        "published" => "sometimes|accepted",
-        "category_id" => "nullable|exists:categories,id",
-    ];
+    // protected $validationRule = [
+    //     "title" => "required|string|max:100",
+    //     "content" => "required",
+    //     "published" => "sometimes|accepted",
+    //     "category_id" => "nullable|exists:categories,id",
+    // ];
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +47,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->validationRule);
+        // $request->validate($this->validationRule);
         $data = $request->all();
         $newPost = new Post();
         $newPost->title = $data['title'];
@@ -54,6 +55,8 @@ class PostController extends Controller
         $newPost->published  = isset($data['published']);// true o false
         $newPost->category_id = $data['category_id'];
         $newPost->slug = $this->getSlug($newPost->title);
+        $img_path=Storage::put('uploads', $data['image']);
+        $newPost->image = $img_path;
         $newPost->save();
         return redirect()->route('admin.posts.show',$newPost->id);
     }

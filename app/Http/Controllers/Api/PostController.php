@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Post;
@@ -39,7 +39,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $request->validate($this->validationRules);
+        $request->validate($this->validationRules);
       
         $newPost = Post::create($data);
 

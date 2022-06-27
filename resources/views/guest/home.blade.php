@@ -7,9 +7,10 @@
     <div class="row">
         @foreach ($posts as $post)
             <div class="col-3">
-                <a href="{{route('posts.show', $post->id)}}">
+                <a href="{{route('posts.show', $post->id, $categories)}}">
                     <h3>{{$post->title}}</h3>
                     <p>{{$post->description}}</p>
+                    <img src="{{$post->image}}" alt="">
                 </a>
                 <form action='{{ route('posts.destroy', $post->id) }}' method="POST">
                     @csrf
