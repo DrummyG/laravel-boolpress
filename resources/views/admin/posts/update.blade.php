@@ -1,7 +1,7 @@
 @extends('parts.body')
 
 @section('content')
-<form action="{{ route('posts.update', $post->id) }}" method="POST" class="boot">
+<form action="{{ route('admin.posts.update', $post->id) }}" method="POST" class="boot">
     @csrf
     @method('PUT')
     <div class="mb-3 row justify-content-center">
@@ -37,4 +37,9 @@
     </div>
     <button class="btn btn-warning"><strong>Modifica</strong></button>
 </form>
+<script src="//js.nicedit.com/nicEdit-latest.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+  bkLib.onDomLoaded(nicEditors.allTextAreas);
+</script>
 @endsection

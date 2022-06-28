@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Post;
+use App\Category;
 
 
 /*
@@ -16,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/',function(){
-    return view('guest.h');
+    $posts = Post::all();
+    $categories = Category::all();
+    return view('guest.home', compact('posts', 'categories'));
 });
 
 Auth::routes();
@@ -26,7 +30,9 @@ Route::middleware('auth')
     ->name('admin.')
     ->prefix('admin')
     ->group(function(){
-        Route::get('/', 'HomeController@index')->name('home');
+        $posts = Post::all();
+        $categories = Category::all();
+        Route::get('/', 'HomeController@index', compact('posts', 'categories'))->name('home');
         Route::resource('/posts', 'PostController');
         Route::resource('/categories', 'CategoryController');
         Route::resource('/tags', 'TagController');

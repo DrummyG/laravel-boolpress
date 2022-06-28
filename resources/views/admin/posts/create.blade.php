@@ -1,7 +1,7 @@
 @extends('parts.body')
 @section('content')
 
-<form action="{{ route('posts.store') }}" method="POST" class="boot" enctype="multipart/form-data">
+<form action="{{ route('admin.posts.store') }}" method="POST" class="boot" enctype="multipart/form-data">
     @csrf
     <div class="mb-3 row justify-content-center">
         <label for="title" class="col-sm-8 col-form-label">Title</label>
@@ -29,5 +29,10 @@
     </div>
     <button class="btn btn-warning"><strong>Save</strong></button>
 </form>
+<script src="//js.nicedit.com/nicEdit-latest.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+  bkLib.onDomLoaded(nicEditors.allTextAreas);
+</script>
 
 @endsection

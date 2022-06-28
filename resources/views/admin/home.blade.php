@@ -12,7 +12,7 @@
                     <p>{{$post->description}}</p>
                     <img src="{{$post->image}}" alt="">
                 </a>
-                <form action='{{ route('posts.destroy', $post->id) }}' method="POST">
+                <form action='{{ route('admin.posts.destroy', $post->id) }}' method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger m-2">Elimina</button>

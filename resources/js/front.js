@@ -6,8 +6,6 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -26,9 +24,17 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+ window.axios = require('axios');
+ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+ 
+ window.Vue = require('vue');
+ 
  import App from './views/App';
-
- const app = new Vue({
-	el: '#root',
-	render: h => h(App), // renderizziamo App all'avvio di Vue
-});
+ 
+ import router from './router.js';
+ 
+  const app = new Vue({
+	 el: '#root',
+	 render: h => h(App),
+	 router
+ });
