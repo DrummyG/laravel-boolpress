@@ -1,7 +1,7 @@
 <template>
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <router-link :to="{ name: menuItem[0].routeName }" class="navbar-brand">{{menuItem[0].label}}</router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -14,11 +14,6 @@
                 </div>
             </div>
         </nav>
-
-        <ul>
-            <li> <a href="/">Home</a></li>
-            <li> <a href="/admin">Area riservata</a></li>
-        </ul>
     </header>
 </template>
 <script>
@@ -48,3 +43,9 @@ export default {
     }
 }
 </script>
+
+<style>
+    nav{
+        background-color: cadetblue;
+    }
+</style>

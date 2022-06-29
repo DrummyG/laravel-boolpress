@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="{{asset('css/front.css')}}">
 </head>
 <body>
-    @include('parts.header')
     @yield('content')
-    @include('parts.footer')
 </body>
 </html>

@@ -67,7 +67,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($show)
+    public function show($slug)
     {
         $post = Post::where("slug",$slug)->with(["category","tags"])->first();
         if(empty($post)){

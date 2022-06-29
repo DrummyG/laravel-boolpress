@@ -17,11 +17,7 @@ use App\Category;
 |
 */
 
-Route::get('/',function(){
-    $posts = Post::all();
-    $categories = Category::all();
-    return view('guest.home', compact('posts', 'categories'));
-});
+// Route::get('/', 'Admin\PostController@index');
 
 Auth::routes();
 
@@ -37,4 +33,10 @@ Route::middleware('auth')
         Route::resource('/categories', 'CategoryController');
         Route::resource('/tags', 'TagController');
     });
+
+Route::get("{any?}", function() {
+    $posts = Post::all();
+    $categories = Category::all();
+    return view("guest.home", compact('posts', 'categories'));
+})->where("any", ".*");
 

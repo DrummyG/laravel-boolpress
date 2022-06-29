@@ -13,14 +13,14 @@ class UpdatePostsAddComment extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             // $table->unsignedBigInteger('user_id');
 
             // $table->foreign('user_id')
             //     ->references('id')
             //     ->on('users');
             
-            $table->foreignId('comment_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('post_id')->nullable()->constrained()->onDelete('set null');
         });
     }
 
@@ -31,6 +31,9 @@ class UpdatePostsAddComment extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('posts', function (Blueprint $table) {
+        $table->dropForeign(['comment_id']);
+        $table->dropColumn("comment_id");
+    });
     }
 }

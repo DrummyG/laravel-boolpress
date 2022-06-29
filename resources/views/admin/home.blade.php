@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col">
                 <button><a href="{{route('admin.posts.create')}}">Crea Nuovo Post</a></button>
-    {{-- <button><a href="{{route('categories.create')}}">Crea Nuova Categoria</a></button> --}}
+                <button><a href="{{route('categories.create')}}">Crea Nuova Categoria</a></button>
             </div>
         </div>
     </div>

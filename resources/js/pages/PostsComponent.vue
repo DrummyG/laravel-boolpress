@@ -1,16 +1,15 @@
 <template>
     <section>
         <h1> Posts</h1>
-        <ul v-if="posts.length > 0">
-            <li v-for="(post,index) in posts" :key="post.id">
-                <div class="col-3">
+        <div class="container">
+            <div class="row" v-if="posts.length > 0">
+                <div class="col-3" v-for="post in posts" :key="post.id">
                     <h3>{{post.title}}</h3>
                     <p>{{post.description}}</p>
-                    <img :src="post.image" alt="">
-            </div>
+                </div>
             <router-link :to="{ name: 'single-post', params: { slug: post.slug } }">Visualizza Post</router-link>
-            </li>
-        </ul>
+            </div>
+        </div>
     </section>
 </template>
 <script>
@@ -18,7 +17,7 @@ export default {
     name: 'PostsComponent',
     data(){
         return {
-            posts: []
+            posts: [],
         }
     },
     created(){
@@ -30,3 +29,7 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+
+</style>

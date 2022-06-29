@@ -5,6 +5,11 @@
             <p>{{post.description}}</p>
             <img :src="`/storage/${post.image}`" alt="">
         </div>
+        <div v-if="comments">
+            <p v-for="(comment) in comments" :key="comment.id">{{comment}}</p>
+        </div>
+
+
 
     </section>
 </template>
@@ -13,7 +18,8 @@ export default {
     name: 'SinglePostComponent',
     data(){
         return{
-            post: null
+            post: null,
+            comments: null
         }
     },
     mounted(){
@@ -22,6 +28,11 @@ export default {
             this.post = response.data;
         }).catch((error) => {
             this.$router.push({name: 'page-404'});
+        })
+
+        const comments = this.$route.params.id;
+        axios.get(`/api/comments/${post_id}`).then((response) => {
+            this.comments = response.data;
         })
     }
 }
