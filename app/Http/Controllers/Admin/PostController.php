@@ -25,7 +25,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index',compact('posts'));
+        return response()->json($posts);
     }
 
     /**
@@ -67,10 +67,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($show)
     {
-        $post = Post::findOrFail($id);
-        return view('admin.posts.show', compact('post'));
+        $post = Post::where("slug",$slug)->with(["category","tags"])->first();
+        if(empty($post)){
+            return response()->json(["message"=>"Post not Found"], 404);
+        }
+        return response()->json($post);
     }
 
     /**
