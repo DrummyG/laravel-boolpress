@@ -5,9 +5,13 @@
             <p>{{post.description}}</p>
             <img :src="`/storage/${post.image}`" alt="">
         </div>
-        <div v-if="comments">
-            <p v-for="(comment) in comments" :key="comment.id">{{comment}}</p>
+        <div v-if="post.comments">
+            <p v-for="(comment) in post.comments" :key="comment.id">{{comment.comment}}</p>
         </div>
+        <form @submit.prevent="CommentSend()">
+            <input type="text" v-model="nuovoMessaggio.comment" name="scritto">
+            <button type="submit">Invia</button>
+        </form>
 
 
 
@@ -19,20 +23,27 @@ export default {
     data(){
         return{
             post: null,
-            comments: null
+            nuovoMessaggio: {
+                comment: '',
+                post_id: null
+            }
+        }
+    },
+    methods:{
+        CommentSend(){
+            this.nuovoMessaggio.post_id = this.post.id
+            axios.post('/api/comments', this.nuovoMessaggio).then((response)=>{
+                this.post.comments.push(response.data)
+            })
         }
     },
     mounted(){
         const slug = this.$route.params.slug;
         axios.get(`/api/posts/${slug}`).then((response) => {
             this.post = response.data;
+            console.log(this.post)
         }).catch((error) => {
             this.$router.push({name: 'page-404'});
-        })
-
-        const comments = this.$route.params.id;
-        axios.get(`/api/comments/${post_id}`).then((response) => {
-            this.comments = response.data;
         })
     }
 }

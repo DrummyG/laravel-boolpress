@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Post;
-use App\Category;
-use Illuminate\Support\Str;
+use App\Comment;
 
 class CommentController extends Controller
 {
@@ -38,7 +36,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $newComment= new Comment;
+        $newComment->comment = $data['comment'];
+        $newComment->post_id = $data['post_id'];
+        $newComment->save();
+        return response()->json($newComment);
+
     }
 
     /**

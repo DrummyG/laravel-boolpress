@@ -8,7 +8,7 @@ class Comment extends Model
 {
     protected $guarded = [];
 
-    public function posts(){
+    public function post(){
         return $this->belongsTo('App\Post');
     }
 }

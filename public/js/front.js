@@ -2103,28 +2103,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SinglePostComponent',
   data: function data() {
     return {
       post: null,
-      comments: null
+      nuovoMessaggio: {
+        comment: '',
+        post_id: null
+      }
     };
   },
+  methods: {
+    CommentSend: function CommentSend() {
+      var _this = this;
+
+      this.nuovoMessaggio.post_id = this.post.id;
+      axios.post('/api/comments', this.nuovoMessaggio).then(function (response) {
+        _this.post.comments.push(response.data);
+      });
+    }
+  },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     var slug = this.$route.params.slug;
     axios.get("/api/posts/".concat(slug)).then(function (response) {
-      _this.post = response.data;
+      _this2.post = response.data;
+      console.log(_this2.post);
     })["catch"](function (error) {
-      _this.$router.push({
+      _this2.$router.push({
         name: 'page-404'
       });
-    });
-    var comments = this.$route.params.id;
-    axios.get("/api/comments/".concat(post_id)).then(function (response) {
-      _this.comments = response.data;
     });
   }
 });
@@ -3515,29 +3529,32 @@ var render = function () {
         ? _c(
             "div",
             { staticClass: "row" },
-            [
-              _vm._l(_vm.posts, function (post) {
-                return _c("div", { key: post.id, staticClass: "col-3" }, [
+            _vm._l(_vm.posts, function (post, index) {
+              return _c(
+                "div",
+                { key: post.id, staticClass: "col-3" },
+                [
                   _c("h3", [_vm._v(_vm._s(post.title))]),
                   _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(post.description))]),
-                ])
-              }),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    to: {
-                      name: "single-post",
-                      params: { slug: _vm.post.slug },
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        to: {
+                          name: "single-post",
+                          params: { slug: post.slug },
+                        },
+                      },
                     },
-                  },
-                },
-                [_vm._v("Visualizza Post")]
-              ),
-            ],
-            2
+                    [_vm._v("Visualizza Post ")]
+                  ),
+                ],
+                1
+              )
+            }),
+            0
           )
         : _vm._e(),
     ]),
@@ -3576,15 +3593,53 @@ var render = function () {
         ])
       : _vm._e(),
     _vm._v(" "),
-    _vm.comments
+    _vm.post.comments
       ? _c(
           "div",
-          _vm._l(_vm.comments, function (comment) {
-            return _c("p", { key: comment.id }, [_vm._v(_vm._s(comment))])
+          _vm._l(_vm.post.comments, function (comment) {
+            return _c("p", { key: comment.id }, [
+              _vm._v(_vm._s(comment.comment)),
+            ])
           }),
           0
         )
       : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "form",
+      {
+        on: {
+          submit: function ($event) {
+            $event.preventDefault()
+            return _vm.CommentSend()
+          },
+        },
+      },
+      [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.nuovoMessaggio.comment,
+              expression: "nuovoMessaggio.comment",
+            },
+          ],
+          attrs: { type: "text", name: "scritto" },
+          domProps: { value: _vm.nuovoMessaggio.comment },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.nuovoMessaggio, "comment", $event.target.value)
+            },
+          },
+        }),
+        _vm._v(" "),
+        _c("button", { attrs: { type: "submit" } }, [_vm._v("Invia")]),
+      ]
+    ),
   ])
 }
 var staticRenderFns = []

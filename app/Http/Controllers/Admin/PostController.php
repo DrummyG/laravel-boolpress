@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Iluminate\Support\Facades\Storage;
 use App\Post;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -25,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return response()->json($posts);
+        return view('admin.home', compact('posts'));
     }
 
     /**

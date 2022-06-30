@@ -12,11 +12,11 @@ class Post extends Model
         return $this->belongsTo('App\Category');
     }
 
-    public function comment(){
-        return $this->belongsToMany('App\Comment');
+    public function comments(){
+        return $this->hasMany('App\Comment');
     }
 
     public function tags(){
-        return $this->belongsToMany('App/Tag');
+        return $this->belongsToMany('App\Tag');
     }
 }
